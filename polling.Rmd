@@ -7,24 +7,38 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(dplyr)
+library(devtools)
+library(tidyr)
+library(knitr)
 ```
 
-## R Markdown
+```{r, echo=FALSE}
+pollofpolls<- read_csv("https://pollofpolls.eu/get/polls/IT-parliament/format/csv")
+kable(pollofpolls)
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+pollofpolls %>% 
+  filter(date>="2016-12-04") %>%
+  ggplot(aes(x=date)) + geom_line(aes(x=date, y=LN), color = "dark green")
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+pollofpolls %>% 
+  filter(date>="2016-12-04") %>%
+  gather(key="party", value =c())
 
-```{r cars}
-summary(cars)
+pollofpolls %>% 
+  filter(date>="2016-12-04") %>%
+  ggplot(aes(x=date)) + 
+  geom_line(aes(x=date, y=M5S), color = "yellow") +
+  geom_line(aes(x=date, y=PD), color = "pink") +
+  geom_line(aes(x=date, y=FdI), color = "dark blue") +
+  geom_line(aes(x=date, y=LN), color = "dark green") +
+  geom_line(aes(x=date, y=FIPDLFI), color = "blue") +
+  geom_line(aes(x=date, y=IdV), color = "dark red")
+
+ggplot(pollofpolls, aes(x=))
+pollofpolls %>% 
+  filter(date>="2016-12-04") %>%
+  arrange(desc(date))
 ```
 
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
