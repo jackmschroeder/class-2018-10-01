@@ -24,11 +24,14 @@ pollofpolls %>%
 
 
 pollofpolls %>% 
-  filter(date>="2016-12-04") %>%
-  select(date,firm, n, sd, PD, M5S, FdI, LN, FIPDLFI, IdV) %>% 
-  gather(key="party", value ="poll", PD:IdV) %>% 
+  filter(date>="2017-10-03") %>%
+  select(date,firm, n, sd, PD, M5S, LN, FIPDLFI) %>% 
+  gather(key="party", value ="poll", PD:FIPDLFI) %>% 
   ggplot(aes(x=date, y=poll, color = party)) + 
-  geom_line(size=.5, alpha=.5)
+  geom_point(size=.1, alpha=.4)  +
+  geom_smooth() +
+  ggtitle("Aggregate Italian Polling", subtitle = "Over the past 12 months")
+
 
 ```
 
