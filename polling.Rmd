@@ -15,30 +15,20 @@ library(knitr)
 ```
 
 ```{r, echo=FALSE}
-pollofpolls<- read_csv("https://pollofpolls.eu/get/polls/IT-parliament/format/csv")
-kable(pollofpolls)
+pollofpolls<- read_csv("https://pollofpolls.eu/get/polls/IT-parliament/format/csv", guess_max=3000)
+
+pollofpolls %>% 
+  count(firm)%>% 
+  arrange(desc(nn)) %>% 
+  filter(nn>=100)
+
 
 pollofpolls %>% 
   filter(date>="2016-12-04") %>%
-  ggplot(aes(x=date)) + geom_line(aes(x=date, y=LN), color = "dark green")
+  select(date,firm, n, sd, PD, M5S, FdI, LN, FIPDLFI, IdV) %>% 
+  gather(key="party", value ="poll", PD:IdV) %>% 
+  ggplot(aes(x=date, y=poll, color = party)) + 
+  geom_line(size=.5, alpha=.5)
 
-pollofpolls %>% 
-  filter(date>="2016-12-04") %>%
-  gather(key="party", value =c())
-
-pollofpolls %>% 
-  filter(date>="2016-12-04") %>%
-  ggplot(aes(x=date)) + 
-  geom_line(aes(x=date, y=M5S), color = "yellow") +
-  geom_line(aes(x=date, y=PD), color = "pink") +
-  geom_line(aes(x=date, y=FdI), color = "dark blue") +
-  geom_line(aes(x=date, y=LN), color = "dark green") +
-  geom_line(aes(x=date, y=FIPDLFI), color = "blue") +
-  geom_line(aes(x=date, y=IdV), color = "dark red")
-
-ggplot(pollofpolls, aes(x=))
-pollofpolls %>% 
-  filter(date>="2016-12-04") %>%
-  arrange(desc(date))
 ```
 
